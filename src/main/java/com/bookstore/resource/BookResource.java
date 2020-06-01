@@ -117,8 +117,8 @@ public class BookResource {
 		return book;
 	}
 	
-	@RequestMapping(value="/searchBook", method=RequestMethod.POST)
-	public List<Book> searchBook (@RequestBody String keyword) {
+	@RequestMapping(value="/searchBook/{keyword}", method=RequestMethod.GET)
+	public List<Book> searchBook (@PathVariable String keyword) {
 		List<Book> bookList = bookService.blurrySearch(keyword);
 		
 		return bookList;
