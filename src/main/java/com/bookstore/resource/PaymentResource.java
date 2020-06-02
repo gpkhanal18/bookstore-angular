@@ -66,11 +66,9 @@ public class PaymentResource {
 //		return new ResponseEntity("Defauly!", HttpStatus.OK);
 	}
 	
-	@RequestMapping("/getUserPaymentList")
-	public List<UserPayment> getUserPaymentList(
-			Principal principal
-			){
-		User user = userService.findByUsername(principal.getName());
+	@RequestMapping("/getUserPaymentList/{userId}")
+	public List<UserPayment> getUserPaymentList(@PathVariable Long userId){
+		User user = userService.findById(userId);
 		
 		List<UserPayment> userPaymentList = user.getUserPaymentList();
 		
