@@ -28,6 +28,7 @@ import com.bookstore.domain.User;
 import com.bookstore.domain.security.Role;
 import com.bookstore.domain.security.UserRole;
 import com.bookstore.dto.UserDto;
+import com.bookstore.dto.UserUpdateDto;
 import com.bookstore.service.UserService;
 import com.bookstore.utility.MailConstructor;
 
@@ -51,7 +52,7 @@ public class UserResource {
 	
 	
 	@GetMapping("/{id}")
-	public User getAllUsers(@PathVariable Long id) {
+	public User getuserById(@PathVariable Long id) {
 		return userService.findById(id); 
 	}
 	
@@ -131,18 +132,18 @@ public class UserResource {
 
 	}
 
-	@RequestMapping(value="/updateUserInfo", method=RequestMethod.POST)
-	public ResponseEntity profileInfo(
-				@RequestBody HashMap<String, Object> mapper
+	@RequestMapping(value="/update/{UserId}", method=RequestMethod.POST)
+	public ResponseEntity profileInfo(@PathVariable int UserId, 
+				@Valid @RequestBody UserUpdateDto userUpdateDto
 			) throws Exception{
 		
-		int id = (Integer) mapper.get("id");
-		String email = (String) mapper.get("email");
-		String username = (String) mapper.get("username");
-		String firstName = (String) mapper.get("firstName");
-		String lastName = (String) mapper.get("lastName");
-		String newPassword = (String) mapper.get("newPassword");
-		String currentPassword = (String) mapper.get("currentPassword");
+		int id = UserId;
+		String email = userUpdateDto.getEmail();
+		String username = userUpdateDto.getUsername();
+		String firstName = userUpdateDto.getFirstName();
+		String lastName = userUpdateDto.getLastName();
+		String newPassword = userUpdateDto.getNewPassword();
+		String currentPassword = userUpdateDto.getCurrentPassword();
 		
 		User currentUser = userService.findById(Long.valueOf(id));
 		
