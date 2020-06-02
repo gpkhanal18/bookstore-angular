@@ -4,6 +4,8 @@ import javax.validation.constraints.NotNull;
 
 public class UserDto {
 	
+	private Long id; 
+	
 	@NotNull(message = "username must not be null")
 	private String username; 
 	@NotNull(message = "password must not be null")
@@ -13,6 +15,12 @@ public class UserDto {
 	
 	
 	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getEmail() {
 		return email;
 	}

@@ -3,6 +3,7 @@ package com.bookstore.resource;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,6 +43,19 @@ public class UserResource {
 
 	@Autowired
 	private JavaMailSender mailSender;
+	
+	@GetMapping("/all")
+	public List<User> getAllUsers() {
+		return userService.findAll(); 
+	}
+	
+	
+	@GetMapping("/{id}")
+	public User getAllUsers(@PathVariable Long id) {
+		return userService.findById(id); 
+	}
+	
+	
 
 	@RequestMapping(value = "/newUser", method = RequestMethod.POST)
 	public ResponseEntity<UserDto> newUserPost(HttpServletRequest request,@Valid @RequestBody UserDto userDto)
@@ -73,7 +89,7 @@ public class UserResource {
 		role.setName("ROLE_USER");
 		Set<UserRole> userRoles = new HashSet<>();
 		userRoles.add(new UserRole(user, role));
-		userService.createUser(user, userRoles);
+		User createUser = userService.createUser(user, userRoles);
 		System.out.println("from 1");
 		// skipping the mail sending part 
 //		SimpleMailMessage email = mailConstructor.constructNewUserEmail(user, password);
@@ -84,6 +100,7 @@ public class UserResource {
 		userDto2.setUsername(username);
 		userDto2.setPassword(password);
 		userDto2.setEmail(userEmail);
+		userDto2.setId(createUser.getId());
 		
 		
 //		return new ResponseEntity("User Added Successfully!", HttpStatus.OK);
