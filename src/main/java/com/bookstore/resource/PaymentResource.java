@@ -29,7 +29,7 @@ public class PaymentResource {
 	private UserPaymentService userPaymentService;
 
 	@RequestMapping(value="/add/{userId}", method=RequestMethod.POST)
-	public ResponseEntity<User> addNewCreditCardPost (
+	public ResponseEntity<List<UserPayment>> addNewCreditCardPost (
 			@RequestBody UserPayment userPayment,@PathVariable Long userId) {
 		User user = userService.findById(userId);
 		
@@ -37,31 +37,33 @@ public class PaymentResource {
 		
 		User updateUser = userService.updateUserBilling(userBilling, userPayment, user);
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(updateUser);
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(updateUser.getUserPaymentList());
 	}
 	
-	@RequestMapping(value="/remove", method=RequestMethod.POST)
-	public ResponseEntity removePaymentPost(
-			@RequestBody String id,
-			Principal principal
-			){
+	@RequestMapping(value="/user/{userId}/payment/{paymentId}/remove", method=RequestMethod.DELETE)
+	public ResponseEntity removePayment(@PathVariable Long userId, @PathVariable int paymentId){
 //		User user = userService.findByUsername(principal.getName());
 		
-		userPaymentService.removeById(Long.valueOf(id));
+		userPaymentService.removeById(Long.valueOf(paymentId));
+		// get updated paymenet list 
+		List<UserPayment> userPaymentList = userService.findById(userId).getUserPaymentList();
 		
-		return new ResponseEntity("Payment Removed Successfully!", HttpStatus.OK);
+		return ResponseEntity.status(HttpStatus.OK).body(userPaymentList);
+//		return new ResponseEntity("Payment Removed Successfully!", HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/setDefault", method=RequestMethod.POST)
-	public ResponseEntity setDefaultPaymentPost(
-			@RequestBody String id,
-			Principal principal
-			){
-		User user = userService.findByUsername(principal.getName());
+	@RequestMapping(value="/{userId}/payment/{paymentId}/setDefault", method=RequestMethod.PUT)
+	public ResponseEntity setDefaultPaymentPost(@PathVariable int userId, @PathVariable Long paymentId){
+		User user = userService.findById((long) userId);
 		
-		userService.setUserDefaultPayment(Long.parseLong(id), user);
+		userService.setUserDefaultPayment(paymentId, user);
+		// user new payment list 
+		List<UserPayment> userPaymentList = userService.findById((long) userId).getUserPaymentList();
 		
-		return new ResponseEntity("Payment Removed Successfully!", HttpStatus.OK);
+		return ResponseEntity.status(HttpStatus.OK).body(userPaymentList);
+		
+//		return new ResponseEntity("Defauly!", HttpStatus.OK);
 	}
 	
 	@RequestMapping("/getUserPaymentList")
