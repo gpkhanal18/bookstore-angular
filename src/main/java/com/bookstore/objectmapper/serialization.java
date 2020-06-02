@@ -1,6 +1,6 @@
 package com.bookstore.objectmapper;
 
-import com.bookstore.domain.UserBilling;
+import com.bookstore.domain.UserShipping;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -16,7 +16,7 @@ public class serialization {
 //		System.out.println(writeValueAsString);
 		
 		
-		System.out.println(new ObjectMapper().writeValueAsString(new UserBilling()));
+		System.out.println(new ObjectMapper().writeValueAsString(new UserShipping()));
 	}
 
 }
