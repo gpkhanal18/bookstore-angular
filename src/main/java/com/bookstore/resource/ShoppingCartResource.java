@@ -7,14 +7,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bookstore.domain.Book;
 import com.bookstore.domain.CartItem;
 import com.bookstore.domain.ShoppingCart;
 import com.bookstore.domain.User;
+import com.bookstore.dto.AddItemDto;
+import com.bookstore.dto.CartItemRequestDto;
 import com.bookstore.service.BookService;
 import com.bookstore.service.CartItemService;
 import com.bookstore.service.ShoppingCartService;
@@ -35,14 +39,14 @@ public class ShoppingCartResource {
 	@Autowired
 	private ShoppingCartService shoppingCartService;
 	
-	@RequestMapping("/add")
+	@RequestMapping(value="/{userId}/add", method=RequestMethod.POST)
 	public ResponseEntity addItem (
-			@RequestBody HashMap<String, String> mapper, Principal principal
+			@RequestBody AddItemDto addItemDto, @PathVariable Long userId
 			){
-		String bookId = (String) mapper.get("bookId");
-		String qty = (String) mapper.get("qty");
+		String bookId = addItemDto.getBookId();
+		String qty = addItemDto.getQty();
 		
-		User user = userService.findByUsername(principal.getName());
+		User user = userService.findById(userId);
 		Book book = bookService.findOne(Long.parseLong(bookId));
 		
 		if(Integer.parseInt(qty) > book.getInStockNumber()) {
@@ -54,9 +58,9 @@ public class ShoppingCartResource {
 		return new ResponseEntity("Book Added Successfully!", HttpStatus.OK);
 	}
 	
-	@RequestMapping("/getCartItemList")
-	public List<CartItem> getCartItemList(Principal principal) {
-		User user = userService.findByUsername(principal.getName());
+	@RequestMapping(value="/{userId}/getCartItemList", method=RequestMethod.GET)
+	public List<CartItem> getCartItemList(@PathVariable Long userId) {
+		User user = userService.findById(userId);
 		ShoppingCart shoppingCart = user.getShoppingCart();
 		
 		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
@@ -66,9 +70,9 @@ public class ShoppingCartResource {
 		return cartItemList;
 	}
 	
-	@RequestMapping("/getShoppingCart")
-	public ShoppingCart getShoppingCart(Principal principal) {
-		User user = userService.findByUsername(principal.getName());
+	@RequestMapping(value="/{userId}/getShoppingCart", method=RequestMethod.GET)
+	public ShoppingCart getShoppingCart(@PathVariable Long userId) {
+		User user = userService.findById(userId);
 		ShoppingCart shoppingCart = user.getShoppingCart();
 		
 		shoppingCartService.updateShoppingCart(shoppingCart);
@@ -76,19 +80,19 @@ public class ShoppingCartResource {
 		return shoppingCart;
 	}
 	
-	@RequestMapping("/removeItem")
-	public ResponseEntity removeItem(@RequestBody String id) {
-		cartItemService.removeCartItem(cartItemService.findById(Long.parseLong(id)));
+	@RequestMapping(value="/removeItem/{itemId}", method=RequestMethod.DELETE)
+	public ResponseEntity removeItem(@PathVariable Long itemId) {
+		cartItemService.removeCartItem(cartItemService.findById(itemId));
 		
 		return new ResponseEntity("Cart Item Removed Successfully!", HttpStatus.OK);
 	}
 	
-	@RequestMapping("/updateCartItem")
+	@RequestMapping(value="/updateCartItem", method=RequestMethod.PUT)
 	public ResponseEntity updateCartItem(
-			@RequestBody HashMap<String, String> mapper
+			@RequestBody CartItemRequestDto cartItemRequestDto
 			){
-		String cartItemId = mapper.get("cartItemId");
-		String qty = mapper.get("qty");
+		String cartItemId = cartItemRequestDto.getCartItemId();
+		String qty = cartItemRequestDto.getQty();
 		
 		CartItem cartItem = cartItemService.findById(Long.parseLong(cartItemId));
 		cartItem.setQty(Integer.parseInt(qty));
