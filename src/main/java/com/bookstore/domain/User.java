@@ -47,7 +47,7 @@ public class User implements UserDetails, Serializable{
 	private Set<UserRole> userRoles = new HashSet<>();
 	
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy = "user")
+	@OneToMany(cascade=CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
 	private List<UserPayment> userPaymentList;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy = "user")

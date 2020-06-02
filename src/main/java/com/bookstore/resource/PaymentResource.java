@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,17 +28,16 @@ public class PaymentResource {
 	@Autowired
 	private UserPaymentService userPaymentService;
 
-	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public ResponseEntity addNewCreditCardPost (
-			@RequestBody UserPayment userPayment,
-			Principal principal) {
-		User user = userService.findByUsername(principal.getName());
+	@RequestMapping(value="/add/{userId}", method=RequestMethod.POST)
+	public ResponseEntity<User> addNewCreditCardPost (
+			@RequestBody UserPayment userPayment,@PathVariable Long userId) {
+		User user = userService.findById(userId);
 		
 		UserBilling userBilling = userPayment.getUserBilling();
 		
-		userService.updateUserBilling(userBilling, userPayment, user);
+		User updateUser = userService.updateUserBilling(userBilling, userPayment, user);
 		
-		return new ResponseEntity("Payment Added(Updated) Successfully!", HttpStatus.OK);
+		return ResponseEntity.status(HttpStatus.CREATED).body(updateUser);
 	}
 	
 	@RequestMapping(value="/remove", method=RequestMethod.POST)

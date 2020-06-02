@@ -100,13 +100,14 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
-	public void updateUserBilling(UserBilling userBilling, UserPayment userPayment, User user) {
+	public User updateUserBilling(UserBilling userBilling, UserPayment userPayment, User user) {
 		userPayment.setUser(user);
 		userPayment.setUserBilling(userBilling);
 		userPayment.setDefaultPayment(true);
 		userBilling.setUserPayment(userPayment);
 		user.getUserPaymentList().add(userPayment);
-		save(user);
+		User saveduser = save(user);
+		return saveduser;
 	}
 	
 	@Override
