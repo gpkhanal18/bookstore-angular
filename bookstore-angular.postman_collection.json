@@ -1,0 +1,440 @@
+{
+	"info": {
+		"_postman_id": "fac7b795-019a-4c92-8259-4900ce32f0d7",
+		"name": "bookstore-angular",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "book",
+			"item": [
+				{
+					"name": "order",
+					"item": [],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "/book/bookList",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/book/bookList"
+					},
+					"response": []
+				},
+				{
+					"name": "/book/add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"booktitle13\",\n  \"author\": \"bookauthor12\",\n  \"publisher\": \"bookpublisher12\",\n  \"publicationDate\": null,\n  \"active\": true,\n  \"description\": null,\n  \"inStockNumber\": 10,\n  \"bookImage\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/book/add"
+					},
+					"response": []
+				},
+				{
+					"name": "book/bookList",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"id\": 1,\n        \"title\": \"booktitle1\",\n        \"author\": \"bookauthor1\",\n        \"publisher\": \"bookpublisher1\",\n        \"publicationDate\": null,\n        \"language\": null,\n        \"category\": null,\n        \"numberOfPages\": 0,\n        \"format\": null,\n        \"isbn\": null,\n        \"shippingWeight\": 0.0,\n        \"listPrice\": 0.0,\n        \"ourPrice\": 0.0,\n        \"active\": true,\n        \"description\": null,\n        \"inStockNumber\": 10\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/book/bookList"
+					},
+					"response": []
+				},
+				{
+					"name": "/book/update/{id}",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"title\": \"booktitle2updatedPath\",\n        \"author\": \"bookauthor2\",\n        \"publisher\": \"bookpublisher2\",\n        \"publicationDate\": null,\n        \"language\": null,\n        \"category\": null,\n        \"numberOfPages\": 0,\n        \"format\": null,\n        \"isbn\": null,\n        \"shippingWeight\": 0.0,\n        \"listPrice\": 0.0,\n        \"ourPrice\": 0.0,\n        \"active\": true,\n        \"description\": null,\n        \"inStockNumber\": 10\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/book/update/2"
+					},
+					"response": []
+				},
+				{
+					"name": "/book/remove/{bookId}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/book/remove/1"
+					},
+					"response": []
+				},
+				{
+					"name": "/book/searchBook/{keyword}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/book/searchBook/booktitle"
+					},
+					"response": []
+				},
+				{
+					"name": "/book/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/book/2"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "/user/newUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"gopal10\",\n\t\"email\" : \"fakeemail10@gmail.com\",\n\t\"password\" : \"gopal10\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/user/newUser"
+					},
+					"response": []
+				},
+				{
+					"name": "/user/all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/user/all"
+					},
+					"response": []
+				},
+				{
+					"name": "/user/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/user/12"
+					},
+					"response": []
+				},
+				{
+					"name": "/user/update/{id}",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"fakeemail10@gmail.com\",\n  \"username\": \"gopal10\",\n  \"firstName\": \"Gopal\",\n  \"lastName\": \"Khanal\",\n  \"newPassword\": \"khanal\",\n  \"currentPassword\": \"khanal\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/user/update/12"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "/order/getOrderList",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "khanal",
+								"username": "gopal10"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/order/12/getOrderList"
+					},
+					"response": []
+				},
+				{
+					"name": "/order/{userId}/getOrderList/{orderId}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/order/12/getOrderList/1"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "payment",
+			"item": [
+				{
+					"name": "/payment/add/{userId}",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "khanal",
+								"username": "gopal10"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"visa3\",\n  \"cardName\": null,\n  \"expiryMonth\": 0,\n  \"expiryYear\": 0,\n  \"cvc\": 0,\n  \"holderName\": null,\n  \"defaultPayment\": false,\n  \"userBilling\": {\n    \"userBillingName\": \"gopalvisa3\",\n    \"userBillingStreet1\": \"16059 E Otero Plvisa2\",\n    \"userBillingCity\": null,\n    \"userBillingState\": null,\n    \"userBillingCountry\": null,\n    \"userBillingZipcode\": null\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/payment/add/12"
+					},
+					"response": []
+				},
+				{
+					"name": "/payment/user/{uesrId}/payment/{paymentId}remove",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "khanal",
+								"username": "gopal10"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/payment/user/12/payment/1/remove"
+					},
+					"response": []
+				},
+				{
+					"name": "/payment/{userId}/payment/{paymentId}/setDefault",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "khanal",
+								"username": "gopal10"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"url": "http://localhost:8080/payment/12/payment/2/setDefault"
+					},
+					"response": []
+				},
+				{
+					"name": "/payment/getUserPaymentList/{userId}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/payment/getUserPaymentList/12"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "shipping",
+			"item": [
+				{
+					"name": "/shipping/add/{userId}",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "khanal",
+								"username": "gopal10"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userShippingName\": \"name2\",\n  \"userShippingStreet1\": \"street2\",\n  \"userShippingStreet2\": null,\n  \"userShippingCity\": null,\n  \"userShippingState\": null,\n  \"userShippingCountry\": null,\n  \"userShippingZipcode\": null,\n  \"userShippingDefault\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/shipping/add/12"
+					},
+					"response": []
+				},
+				{
+					"name": "/shipping/{userId}/getUserShippingList",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/shipping/12/getUserShippingList"
+					},
+					"response": []
+				},
+				{
+					"name": "/shipping/{userId}/payment/{shippingId}/setDefault",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "http://localhost:8080/shipping/12/payment/1/setDefault"
+					},
+					"response": []
+				},
+				{
+					"name": "/shipping/{userId}/remove/{shippingId}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/shipping/12/remove/1"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "shoppingCart",
+			"item": [
+				{
+					"name": "/cart/{userId}/add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bookId\": 2,\n  \"qty\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/cart/12/add"
+					},
+					"response": []
+				},
+				{
+					"name": "/cart/updateCartItem",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cartItemId\": 2,\n  \"qty\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/cart/updateCartItem"
+					},
+					"response": []
+				},
+				{
+					"name": "/cart//{userId}/getCartItemList",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/cart/12/getCartItemList"
+					},
+					"response": []
+				},
+				{
+					"name": "/cart/getShoppingCart",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "khanal",
+								"username": "gopal10"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/cart/12/getShoppingCart"
+					},
+					"response": []
+				},
+				{
+					"name": "/cart/removeItem/{itemId}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "http://localhost:8080/cart/removeItem/2"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "checkout",
+			"item": [
+				{
+					"name": "/checkout//{userId}",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"shippingAddress\": {\n    \"shippingAddressName\": null,\n    \"shippingAddressStreet1\": null,\n    \"shippingAddressStreet2\": null,\n    \"shippingAddressCity\": \"denplusver\",\n    \"shippingAddressState\": null,\n    \"shippingAddressCountry\": null,\n    \"shippingAddressZipcode\": null\n  },\n  \"billingAddress\": {\n    \"billingAddressName\": null,\n    \"billingAddressStreet1\": null,\n    \"billingAddressStreet2\": null,\n    \"billingAddressCity\": \"denver\",\n    \"billingAddressState\": null,\n    \"billingAddressCountry\": null,\n    \"billingAddressZipcode\": null\n  },\n  \"payment\": {\n    \"type\": null,\n    \"cardNumber\": \"12345\",\n    \"expiryMonth\": 0,\n    \"expiryYear\": 0,\n    \"cvc\": 0,\n    \"holderName\": null,\n    \"defaultPayment\": false\n  },\n  \"shippingMethod\": \"groundShipping\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/checkout/12"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

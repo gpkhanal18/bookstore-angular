@@ -18,4 +18,6 @@ public interface OrderService {
 			User user
 	);
 
+
+	Order findOne(Long id);
 }
