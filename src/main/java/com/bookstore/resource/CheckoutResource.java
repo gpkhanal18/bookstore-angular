@@ -1,14 +1,12 @@
 package com.bookstore.resource;
 
 
-import java.security.Principal;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +19,7 @@ import com.bookstore.domain.Payment;
 import com.bookstore.domain.ShippingAddress;
 import com.bookstore.domain.ShoppingCart;
 import com.bookstore.domain.User;
+import com.bookstore.dto.CheckoutDTO;
 import com.bookstore.service.CartItemService;
 import com.bookstore.service.OrderService;
 import com.bookstore.service.ShoppingCartService;
@@ -51,24 +50,24 @@ public class CheckoutResource {
 	@Autowired
 	private MailConstructor mailConstructor;
 	
-	@RequestMapping(value = "/checkout", method=RequestMethod.POST)
-	public Order checkoutPost(
-				@RequestBody HashMap<String, Object> mapper,
-				Principal principal
-			){
+	@RequestMapping(value = "/{userId}", method=RequestMethod.POST)
+	public Order checkoutPost(@PathVariable Long userId,
+				@RequestBody CheckoutDTO checkoutDTO){
 		ObjectMapper om = new ObjectMapper();
 		
-		ShippingAddress shippingAddress = om.convertValue(mapper.get("shippingAddress"), ShippingAddress.class);
-		BillingAddress billingAddress = om.convertValue(mapper.get("billingAddress"), BillingAddress.class);
-		Payment payment = om.convertValue(mapper.get("payment"), Payment.class);
-		String shippingMethod = (String) mapper.get("shippingMethod");
+		ShippingAddress shippingAddress = checkoutDTO.getShippingAddress();
+		BillingAddress billingAddress = checkoutDTO.getBillingAddress();
+		Payment payment = checkoutDTO.getPayment();
+		String shippingMethod = checkoutDTO.getShippingMethod();
 		
-		ShoppingCart shoppingCart = userService.findByUsername(principal.getName()).getShoppingCart();
+//		ShoppingCart shoppingCart = userService.findByUsername(principal.getName()).getShoppingCart();
+		ShoppingCart shoppingCart = userService.findById(userId).getShoppingCart();
+		
 		List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
-		User user = userService.findByUsername(principal.getName());
+		User user = userService.findById(userId);
 		Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, shippingMethod, user);
 		
-		mailSender.send(mailConstructor.constructOrderConfirmationEmail(user, order, Locale.ENGLISH));
+//		mailSender.send(mailConstructor.constructOrderConfirmationEmail(user, order, Locale.ENGLISH));
 		
 		shoppingCartService.clearShoppingCart(shoppingCart);
 		
